@@ -38,7 +38,7 @@ Swap `@inkbar/react` for `@inkbar/vue` or `@inkbar/svelte`. The [Quickstart](htt
 ## Where things are
 
 - [inkbar.dev](https://inkbar.dev) has the documentation.
-- [inkbar/inkbar](https://github.com/inkbar/inkbar) holds the packages. Report bugs and ask for features in its [issues](https://github.com/inkbar/inkbar/issues).
+- [inkbar/inkbar](https://github.com/inkbar/inkbar) holds the packages.
 - [inkbar/landing](https://github.com/inkbar/landing) is the source of inkbar.dev.
 
 <sub>From the team behind [Redactr](https://redactr.io).</sub>

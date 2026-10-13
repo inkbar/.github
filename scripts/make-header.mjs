@@ -1,4 +1,5 @@
-// Draws the profile header graphics, profile/header-light.png and profile/header-dark.png.
+// Draws the profile graphics: profile/header-light.png and profile/header-dark.png for the
+// README, and profile/avatar.png with profile/avatar.svg for the organisation's profile image.
 //
 // The script borrows Playwright and the brand fonts from a checkout of inkbar/landing, so this
 // repo needs no dependencies of its own:
@@ -6,7 +7,7 @@
 //   node scripts/make-header.mjs ../landing
 //
 // Run `pnpm install` and `pnpm exec playwright install chromium` in that checkout first.
-import { readFileSync } from 'node:fs'
+import { readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -103,4 +104,15 @@ for (const [name, theme] of Object.entries(themes)) {
   await tab.close()
   console.log(`wrote ${file}`)
 }
+
+// The profile image. GitHub rounds the corners itself, so the tile fills the square.
+const avatar = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#0D1026"/><circle cx="16" cy="8.2" r="2.4" fill="#FFFFFF"/><rect x="13.8" y="12" width="4.4" height="7.5" fill="#FFFFFF"/><rect x="6" y="21" width="20" height="5" rx="1.5" fill="#E4FF4A"/></svg>\n`
+writeFileSync(join(out, 'avatar.svg'), avatar)
+const tab = await browser.newPage({ viewport: { width: 1024, height: 1024 } })
+await tab.setContent(
+  `<!doctype html><html><body style="margin:0">${avatar.replace('<svg ', '<svg width="1024" height="1024" style="display:block" ')}</body></html>`
+)
+await tab.screenshot({ path: join(out, 'avatar.png') })
+console.log(`wrote ${join(out, 'avatar.png')} and avatar.svg`)
+
 await browser.close()
